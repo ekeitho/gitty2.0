@@ -1,4 +1,4 @@
-package com.ekeitho.gitbasic.git
+package com.ekeitho.git.db
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo

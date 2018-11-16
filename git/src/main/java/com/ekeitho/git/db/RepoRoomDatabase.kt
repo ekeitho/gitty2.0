@@ -1,12 +1,11 @@
-package com.ekeitho.gitbasic.git.db
+package com.ekeitho.git.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.ekeitho.gitbasic.git.Repo
 
-@Database(entities = arrayOf(Repo::class), version = 1)
+@Database(entities = arrayOf(Repo::class), version = 1, exportSchema = false)
 abstract class RepoRoomDatabase : RoomDatabase() {
     abstract fun repoDao(): RepoDao
 

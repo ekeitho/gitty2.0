@@ -5,12 +5,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.ekeitho.git.db.Repo
 import com.ekeitho.gitbasic.databinding.ItemViewBinding
 import com.ekeitho.gitbasic.fragment.GitReposFragmentDirections
-import com.ekeitho.gitbasic.git.Repo
 
-
-class UserAdapter(val liveData: LiveData<List<Repo>>): RecyclerView.Adapter<UserViewHolder>() {
+class GitRepoAdapter(val liveData: LiveData<List<Repo>>): RecyclerView.Adapter<UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val db = ItemViewBinding.inflate(LayoutInflater.from(parent.context))

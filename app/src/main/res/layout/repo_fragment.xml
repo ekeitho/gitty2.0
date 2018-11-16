@@ -2,7 +2,7 @@
 <layout xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="vm" type="com.ekeitho.gitbasic.git.GitViewModel"/>
+        <variable name="vm" type="com.ekeitho.git.GitViewModel"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,8 +1,8 @@
 package com.ekeitho.gitbasic.di
 
 import android.app.Application
-import com.ekeitho.gitbasic.git.GithubService
-import com.ekeitho.gitbasic.git.db.RepoRepository
+import com.ekeitho.git.GitRepoRepository
+import com.ekeitho.git.GithubService
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -35,7 +35,7 @@ class ApplicationModule {
     }
 
     @Provides
-    fun repoRepository(application: Application, githubService: GithubService): RepoRepository {
-        return RepoRepository(application, githubService)
+    fun repoRepository(application: Application, githubService: GithubService): GitRepoRepository {
+        return GitRepoRepository(application, githubService)
     }
 }

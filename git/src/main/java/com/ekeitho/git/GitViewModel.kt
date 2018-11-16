@@ -1,21 +1,22 @@
-package com.ekeitho.gitbasic.git
+package com.ekeitho.git
 
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.ekeitho.gitbasic.git.db.RepoRepository
+import com.ekeitho.git.db.Repo
 import io.reactivex.disposables.Disposables
 
 class GitViewModel : ViewModel() {
 
     lateinit var users: LiveData<List<Repo>>
 
+
     private var disposable = Disposables.empty()
 
-    fun getUsers(repoRepository: RepoRepository) {
+    fun getUsers(gitRepoRepository: GitRepoRepository) {
         if (!::users.isInitialized) {
-            users = repoRepository.getAllRepos()
-            disposable = repoRepository.loadAllRepos()
+            users = gitRepoRepository.getAllRepos()
+            disposable = gitRepoRepository.loadAllRepos()
         }
     }
 

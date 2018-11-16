@@ -1,32 +1,30 @@
-package com.ekeitho.gitbasic.git.db
+package com.ekeitho.git
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ekeitho.gitbasic.git.GithubService
-import com.ekeitho.gitbasic.git.Repo
+import com.ekeitho.git.db.Repo
+import com.ekeitho.git.db.RepoDao
+import com.ekeitho.git.db.RepoRoomDatabase
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class RepoRepository {
+class GitRepoRepository(application: Application, private val githubService: GithubService) {
 
     private val repoDao: RepoDao
-    private val githubService: GithubService
     private val repoLiveData: MutableLiveData<List<Repo>>
 
-    constructor(application: Application, githubService: GithubService) {
+    init {
         val db = RepoRoomDatabase.getDatabase(application) as RepoRoomDatabase
         repoDao = db.repoDao()
         repoLiveData = MutableLiveData()
-        this.githubService = githubService
     }
 
     fun getAllRepos(): LiveData<List<Repo>> {
         return repoLiveData
     }
-
 
     // logic here can differ based on use case
     fun loadAllRepos(): Disposable {
