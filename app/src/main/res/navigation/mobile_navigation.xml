@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@id/gitReposFragment">
+
+    <fragment
+            tools:layout="@layout/repo_fragment"
+            android:id="@+id/gitReposFragment"
+            android:name="com.ekeitho.gitbasic.fragment.GitReposFragment"
+            android:label="GitReposFragment">
+
+        <action
+                android:id="@+id/repoClickAction"
+                app:destination="@id/detailFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+
+    <fragment
+            tools:layout="@layout/detail_fragment"
+            android:id="@+id/detailFragment"
+            android:name="com.ekeitho.gitbasic.fragment.DetailFragment"
+            android:label="DetailFragment">
+
+        <argument
+                app:argType="string"
+                android:defaultValue="repo"
+                android:name="repoName"/>
+
+    </fragment>
+
+</navigation>
