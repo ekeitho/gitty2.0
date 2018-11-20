@@ -6,4 +6,5 @@ update gitty example to show case
   - kotlin
   - dagger
   - modularity with gradle
+  - databinding with live data
   
