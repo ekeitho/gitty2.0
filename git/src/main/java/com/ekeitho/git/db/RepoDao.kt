@@ -1,11 +1,9 @@
 package com.ekeitho.git.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Observable
 
 @Dao
 interface RepoDao {
@@ -17,6 +15,6 @@ interface RepoDao {
     fun deleteAll()
 
     @Query("SELECT * from repo_table ORDER BY fullName ASC")
-    fun getAllRepos(): LiveData<List<Repo>>
+    fun getAllRepos(): List<Repo>
 
 }

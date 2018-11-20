@@ -2,14 +2,16 @@ package com.ekeitho.git
 
 import android.app.Application
 import android.util.Log
+import androidx.annotation.MainThread
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.ekeitho.git.db.Repo
 import com.ekeitho.git.db.RepoDao
 import com.ekeitho.git.db.RepoRoomDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 class GitRepoRepository(application: Application, private val githubService: GithubService) {
 
@@ -27,17 +29,40 @@ class GitRepoRepository(application: Application, private val githubService: Git
         return repoLiveData
     }
 
+    @MainThread
+    suspend fun updateRepoData(repos: List<Repo>) {
+        withContext(Dispatchers.Main) {
+            repoLiveData.value = repos
+        }
+    }
+
     // logic here can differ based on use case
+    @WorkerThread
     suspend fun loadAllRepos() {
         withContext(Dispatchers.IO) {
-            try {
-                repoLiveData.value = githubService.listRepos("ekeitho").await()
-            } catch (exc: Exception) {
-                Log.e("TAG", "ERROR?", exc)
+
+            val dbResults = repoDao.getAllRepos()
+            if (dbResults.isEmpty()) {
+                try {
+                    val list = githubService.listRepos("ekeitho").await()
+                    for (repo in list) {
+                        repoDao.insert(repo)
+                    }
+                    updateRepoData(list)
+                } catch (exc: Exception) {
+                    Log.e(GitRepoRepository::class.simpleName, "Caught Network Error", exc)
+                }
+
+            } else {
+                updateRepoData(dbResults)
             }
         }
 
         /*
+
+           more readable - but a lot more overhead!
+
+
            return repoDao.getAllRepos()
             .switchMap {
                 if (it.count() == 0) {
