@@ -8,10 +8,9 @@ import com.ekeitho.git.db.Repo
 
 object BindingAdapters {
 
-    @JvmStatic
-    @BindingAdapter("liveData")
-    fun bindToRecycler(recyclerView: RecyclerView, userLiveData: LiveData<List<Repo>>) {
-        recyclerView.adapter = GitRepoAdapter(userLiveData)
-        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+    @BindingAdapter("bind:liveData")
+    fun RecyclerView.bindToRecycler( userLiveData: LiveData<List<Repo>>) {
+        this.adapter = GitRepoAdapter(userLiveData)
+        this.layoutManager = LinearLayoutManager(this.context)
     }
 }
