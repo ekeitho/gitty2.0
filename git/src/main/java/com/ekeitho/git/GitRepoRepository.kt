@@ -27,7 +27,6 @@ class GitRepoRepository(application: Application, private val githubService: Git
 
     // logic here can differ based on use case
     suspend fun loadAllRepos() {
-
         withContext(Dispatchers.IO) {
             repoLiveData.value = githubService.listRepos("ekeitho").await()
         }
