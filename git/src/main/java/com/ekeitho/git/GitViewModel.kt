@@ -4,25 +4,31 @@ package com.ekeitho.git
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ekeitho.git.db.Repo
-import io.reactivex.disposables.Disposables
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class GitViewModel : ViewModel() {
 
-    lateinit var users: LiveData<List<Repo>>
+    lateinit var repos: LiveData<List<Repo>>
 
-
-    private var disposable = Disposables.empty()
+    private val job = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
     fun getUsers(gitRepoRepository: GitRepoRepository) {
-        if (!::users.isInitialized) {
-            users = gitRepoRepository.getAllRepos()
-            disposable = gitRepoRepository.loadAllRepos()
+        if (!::repos.isInitialized) {
+            repos = gitRepoRepository.setupRepoListLiveData()
+
+            uiScope.launch {
+                gitRepoRepository.loadAllRepos()
+            }
         }
     }
 
     override fun onCleared() {
         super.onCleared()
-        disposable.dispose()
+        job.cancel()
     }
 }
 

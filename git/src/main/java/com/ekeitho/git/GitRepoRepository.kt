@@ -6,15 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import com.ekeitho.git.db.Repo
 import com.ekeitho.git.db.RepoDao
 import com.ekeitho.git.db.RepoRoomDatabase
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class GitRepoRepository(application: Application, private val githubService: GithubService) {
 
     private val repoDao: RepoDao
     private val repoLiveData: MutableLiveData<List<Repo>>
+
 
     init {
         val db = RepoRoomDatabase.getDatabase(application) as RepoRoomDatabase
@@ -22,13 +21,19 @@ class GitRepoRepository(application: Application, private val githubService: Git
         repoLiveData = MutableLiveData()
     }
 
-    fun getAllRepos(): LiveData<List<Repo>> {
+    fun setupRepoListLiveData(): LiveData<List<Repo>> {
         return repoLiveData
     }
 
     // logic here can differ based on use case
-    fun loadAllRepos(): Disposable {
-        return repoDao.getAllRepos()
+    suspend fun loadAllRepos() {
+
+        withContext(Dispatchers.IO) {
+            repoLiveData.value = githubService.listRepos("ekeitho").await()
+        }
+
+        /*
+           return repoDao.getAllRepos()
             .switchMap {
                 if (it.count() == 0) {
                     githubService
@@ -48,6 +53,7 @@ class GitRepoRepository(application: Application, private val githubService: Git
             .subscribe {
                 repoLiveData.value = it
             }
+         */
     }
 
 

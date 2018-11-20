@@ -17,9 +17,10 @@ abstract class RepoRoomDatabase : RoomDatabase() {
                 database = Room.databaseBuilder(
                     context.applicationContext,
                     RepoRoomDatabase::class.java, "repo_database"
-                ).allowMainThreadQueries().build()
+                ).build()
             }
             return database!!
         }
     }
+
 }

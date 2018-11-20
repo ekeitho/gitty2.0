@@ -59,11 +59,7 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.14.1'
 
 
-    def lifecycle_version = "2.0.0"
-    // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-
-
+    // navigation hasnt moved to x yet
     implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07'
     implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07'
 }

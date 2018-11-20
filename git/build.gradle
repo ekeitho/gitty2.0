@@ -17,7 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -28,6 +28,7 @@ android {
         }
     }
 
+    dataBinding.enabled = true
 }
 
 dependencies {
@@ -42,5 +43,5 @@ dependencies {
 
 
     // annotation processors need to be put in every module
-    kapt "android.arch.persistence.room:compiler:$roomVersion"
+    kapt 'androidx.room:room-compiler:2.1.0-alpha02'
 }

@@ -14,5 +14,4 @@ class DetailFragment: Fragment() {
         db.repo = args.repoName
         return db.root
     }
-
 }

@@ -3,10 +3,10 @@ package com.ekeitho.gitbasic.di
 import android.app.Application
 import com.ekeitho.git.GitRepoRepository
 import com.ekeitho.git.GithubService
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
@@ -28,7 +28,7 @@ class ApplicationModule {
     fun githubService(): GithubService {
         return Retrofit.Builder()
             .baseUrl("https://api.github.com/")
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(GithubService::class.java)
