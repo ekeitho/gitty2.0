@@ -1,6 +1,7 @@
 package com.ekeitho.git
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ekeitho.git.db.Repo
@@ -8,6 +9,7 @@ import com.ekeitho.git.db.RepoDao
 import com.ekeitho.git.db.RepoRoomDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class GitRepoRepository(application: Application, private val githubService: GithubService) {
 
@@ -28,7 +30,11 @@ class GitRepoRepository(application: Application, private val githubService: Git
     // logic here can differ based on use case
     suspend fun loadAllRepos() {
         withContext(Dispatchers.IO) {
-            repoLiveData.value = githubService.listRepos("ekeitho").await()
+            try {
+                repoLiveData.value = githubService.listRepos("ekeitho").await()
+            } catch (exc: Exception) {
+                Log.e("TAG", "ERROR?", exc)
+            }
         }
 
         /*

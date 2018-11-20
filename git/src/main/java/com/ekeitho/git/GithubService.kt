@@ -10,7 +10,7 @@ import retrofit2.http.Path
 interface GithubService {
 
     @WorkerThread
-    @GET("repos/{user}/repos")
+    @GET("users/{user}/repos")
     fun listRepos(@Path("user") user: String): Deferred<List<Repo>>
 
 }
