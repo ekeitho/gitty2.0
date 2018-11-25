@@ -6,7 +6,6 @@ import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.ekeitho.git.db.Repo
 import com.ekeitho.git.db.RepoDao
 import com.ekeitho.git.db.RepoRoomDatabase
@@ -61,7 +60,6 @@ class GitRepoRepository(application: Application, private val githubService: Git
         /*
 
            more readable - but a lot more overhead!
-
 
            return repoDao.getAllRepos()
             .switchMap {

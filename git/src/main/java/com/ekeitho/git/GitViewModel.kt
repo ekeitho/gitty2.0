@@ -8,15 +8,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class GitViewModel : ViewModel() {
+
+class GitViewModel @Inject constructor(val gitRepoRepository: GitRepoRepository) : ViewModel() {
 
     lateinit var repos: LiveData<List<Repo>>
 
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
-    fun getUsers(gitRepoRepository: GitRepoRepository) {
+    fun getUsers() {
         if (!::repos.isInitialized) {
             repos = gitRepoRepository.setupRepoListLiveData()
 

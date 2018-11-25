@@ -5,7 +5,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(ApplicationModule::class))
+@Component(modules = arrayOf(ViewModelFactoryModule::class, ViewModelModule::class, ApplicationModule::class))
 public interface ApplicationComponent {
     fun inject(repoFragment: GitReposFragment)
 }

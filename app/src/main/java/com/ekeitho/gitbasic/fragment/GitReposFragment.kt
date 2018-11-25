@@ -4,18 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.ekeitho.git.GitViewModel
 import com.ekeitho.git.GitRepoRepository
 import com.ekeitho.gitbasic.RepoApplication
 import com.ekeitho.gitbasic.databinding.RepoFragmentBinding
+import com.ekeitho.gitbasic.di.DaggerViewModelFactory
 import javax.inject.Inject
 
 
 class GitReposFragment : androidx.fragment.app.Fragment() {
 
     @Inject
-    lateinit var gitRepo: GitRepoRepository
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +33,7 @@ class GitReposFragment : androidx.fragment.app.Fragment() {
         val db = RepoFragmentBinding.inflate(inflater, container, false)
         db.setLifecycleOwner(this)
 
-        val vm = ViewModelProviders.of(this).get(GitViewModel::class.java)
+        val vm = ViewModelProviders.of(this, viewModelFactory)[GitViewModel::class.java]
         db.vm = vm
         return db.root
     }
@@ -40,7 +42,7 @@ class GitReposFragment : androidx.fragment.app.Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         ViewModelProviders.of(this).get(GitViewModel::class.java).apply {
-            getUsers(gitRepo)
+            getUsers()
         }
     }
 }

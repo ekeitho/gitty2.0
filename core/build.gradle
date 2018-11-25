@@ -49,16 +49,10 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.1.0-alpha02'
     androidTestImplementation 'androidx.room:room-testing:2.1.0-alpha02'
     api 'androidx.room:room-runtime:2.1.0-alpha02'
-    api 'androidx.room:room-rxjava2:2.1.0-alpha02'
 
     // pass down to all depdendent modules kotlin stdlib
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    // since git repo is dependent on core
-        // if this was prefixed with - implementation - git module would not get this dependency
-        // prefixed with - api - any library that depends on this module will also get this dependency
-    api 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    api 'io.reactivex.rxjava2:rxjava:2.2.3'
 
     // pass down to all dependent modules retrofit
     api 'com.squareup.retrofit2:retrofit:2.4.0'
