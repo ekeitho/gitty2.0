@@ -10,7 +10,7 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("liveData")
-    fun RecyclerView.bindToRecycler( userLiveData: LiveData<List<Repo>>) {
+    fun RecyclerView.bindToRecycler(userLiveData: LiveData<List<Repo>>) {
         this.adapter = GitRepoAdapter(userLiveData)
         this.layoutManager = LinearLayoutManager(this.context)
     }

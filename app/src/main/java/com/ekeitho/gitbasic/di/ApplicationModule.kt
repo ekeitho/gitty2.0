@@ -3,6 +3,8 @@ package com.ekeitho.gitbasic.di
 import android.app.Application
 import com.ekeitho.git.GitRepoRepository
 import com.ekeitho.git.GithubService
+import com.ekeitho.git.db.RepoDao
+import com.ekeitho.git.db.RepoRoomDatabase
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -35,8 +37,18 @@ class ApplicationModule {
     }
 
     @Provides
-    fun repoRepository(application: Application, githubService: GithubService): GitRepoRepository {
-        return GitRepoRepository(application, githubService)
+    fun repoDatabase(): RepoRoomDatabase {
+        return RepoRoomDatabase.getDatabase(application) as RepoRoomDatabase
+    }
+
+    @Provides
+    fun repoDao(repoRoomDatabase: RepoRoomDatabase): RepoDao {
+        return repoRoomDatabase.repoDao()
+    }
+
+    @Provides
+    fun repoRepository(repoDao: RepoDao, githubService: GithubService): GitRepoRepository {
+        return GitRepoRepository(repoDao , githubService)
     }
 
 

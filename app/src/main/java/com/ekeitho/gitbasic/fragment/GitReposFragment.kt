@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.ekeitho.git.GitViewModel
-import com.ekeitho.git.GitRepoRepository
 import com.ekeitho.gitbasic.RepoApplication
 import com.ekeitho.gitbasic.databinding.RepoFragmentBinding
-import com.ekeitho.gitbasic.di.DaggerViewModelFactory
 import javax.inject.Inject
 
 
@@ -34,7 +32,7 @@ class GitReposFragment : androidx.fragment.app.Fragment() {
         db.setLifecycleOwner(this)
 
         val vm = ViewModelProviders.of(this, viewModelFactory)[GitViewModel::class.java]
-        db.vm = vm
+        db.vms = vm
         return db.root
     }
 
@@ -42,7 +40,7 @@ class GitReposFragment : androidx.fragment.app.Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         ViewModelProviders.of(this).get(GitViewModel::class.java).apply {
-            getUsers()
+            loadRepositories()
         }
     }
 }

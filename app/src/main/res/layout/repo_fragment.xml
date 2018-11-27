@@ -2,7 +2,7 @@
 <layout xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="vm" type="com.ekeitho.git.GitViewModel"/>
+        <variable name="vms" type="com.ekeitho.git.GitViewModel"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,7 +16,7 @@
                 android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
-                bind:liveData="@{vm.repos}"
+                liveData="@{vms.repos}"
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

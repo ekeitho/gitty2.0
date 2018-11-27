@@ -1,45 +1,17 @@
 package com.ekeitho.git
 
-import android.app.Application
-import android.util.Log
-import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.ekeitho.git.db.Repo
 import com.ekeitho.git.db.RepoDao
-import com.ekeitho.git.db.RepoRoomDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class GitRepoRepository(application: Application, private val githubService: GithubService) {
-
-    private val repoDao: RepoDao
-    private val repoLiveData: MutableLiveData<List<Repo>>
-
-
-    init {
-        val db = RepoRoomDatabase.getDatabase(application) as RepoRoomDatabase
-        repoDao = db.repoDao()
-        repoLiveData = MutableLiveData()
-    }
-
-    fun setupRepoListLiveData(): LiveData<List<Repo>> {
-        return repoLiveData
-    }
-
-    @MainThread
-    suspend fun updateRepoData(repos: List<Repo>) {
-        withContext(Dispatchers.Main) {
-            repoLiveData.value = repos
-        }
-    }
+open class GitRepoRepository(private val repoDao: RepoDao, private val githubService: GithubService) {
 
     // logic here can differ based on use case
     @WorkerThread
-    suspend fun loadAllRepos() {
-        withContext(Dispatchers.IO) {
-
+    open suspend fun loadAllRepos(): List<Repo> {
+        return withContext(Dispatchers.IO) {
             val dbResults = repoDao.getAllRepos()
             if (dbResults.isEmpty()) {
                 try {
@@ -47,13 +19,15 @@ class GitRepoRepository(application: Application, private val githubService: Git
                     for (repo in list) {
                         repoDao.insert(repo)
                     }
-                    updateRepoData(list)
+                    list
                 } catch (exc: Exception) {
-                    Log.e(GitRepoRepository::class.simpleName, "Caught Network Error", exc)
+                    //Log.e(GitRepoRepository::class.simpleName, "Caught Network Error", exc)
+                    // log error
+                    listOf<Repo>()
                 }
 
             } else {
-                updateRepoData(dbResults)
+                dbResults
             }
         }
 
